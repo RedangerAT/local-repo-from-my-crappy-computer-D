@@ -4,12 +4,17 @@ public class ScriptCoin : MonoBehaviour, ICollidable
 {
     [SerializeField] private int value;
 
-    public int GetValue() // getter method value
-    {
-        return value;
-    }
-    public void OnCollideWithPlayer()
+
+    public void OnCollideWithPlayer(ScriptPlayerCollision playerCollision)
     {
         Debug.Log("Collided with coin");
+        ScriptCoinCounter coinCounter;
+        if (playerCollision.TryGetComponent(out coinCounter))
+        {
+            coinCounter.IncreaseCoinCount(value);
+            Debug.Log(coinCounter.GetCoinCount());
+            Destroy(gameObject);
+        }
+      
     }
 }

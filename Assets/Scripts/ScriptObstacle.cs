@@ -1,11 +1,22 @@
 using UnityEngine;
 
-public class ScriptObstacle : MonoBehaviour
+public class ScriptObstacle : MonoBehaviour, ICollidable
 {
     [SerializeField] private int coinPenalty;
 
-    public int GetCoinPenalty()
+
+   
+
+    public void OnCollideWithPlayer(ScriptPlayerCollision playerCollision)
     {
-        return coinPenalty;
+        Debug.Log("Collided with coin");
+        ScriptCoinCounter coinCounter;
+
+        if (playerCollision.TryGetComponent(out coinCounter))
+        {
+            coinCounter.DecreaseCoinCount(coinPenalty);
+            Debug.Log(coinCounter.GetCoinCount());
+        }
+       
     }
 }
